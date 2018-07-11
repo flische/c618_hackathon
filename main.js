@@ -13,6 +13,7 @@ class CheckerGame{
     }
     startUp(){
         this.buildGameBoard();
+        this.displayInitialModal();
     }
 
     buildGameBoard(){
@@ -35,4 +36,7 @@ class CheckerGame{
             index = 1 - index;
         }
     }
+  displayInitialModal() {
+    $('#myModal').modal('show');
+}
 }
