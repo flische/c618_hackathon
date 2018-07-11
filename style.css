@@ -1,0 +1,25 @@
+#game-board {
+    height: 80vmin;
+    width: 80vmin;
+    margin: auto;
+}
+.gameHeader{
+    text-align: center;
+}
+.row {
+    display: flex;
+    height: 12.5%;
+}
+
+.square {
+    display: inline-block;
+    height: 100%;
+    width: 12.5%;
+}
+.light {
+    background-color: #f3f40a;
+}
+
+.dark {
+    background-color: #2b32f2;
+}
