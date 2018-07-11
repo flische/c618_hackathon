@@ -105,7 +105,7 @@ class CheckerGame{
         }
         return [rightBox, leftBox];
     }
-    updatePlayerBoardPosition( newCellID, currentLocation, leftMove, rightMove ){
+    updatePlayerBoardPosition( newCellID, currentLocation, leftMove, rightMove, player ){
         this.currentMode='checkmove'
         $("#"+ newCellID).addClass(player);
         $("#" + currentLocation).removeClass(player);
@@ -123,24 +123,10 @@ class CheckerGame{
         $("#"+ leftMove).addClass('selectedToMove');
 
         $("#"+ rightMove).click(function(){
-            this.currentMode='checkmove'
-            $("#"+ rightMove).addClass(player);
-            $("#" + currentLocation).removeClass(player);
-            $("#" + currentLocation).removeClass('selected');
-            $("#"+ leftMove).removeClass('selectedToMove');
-            $("#"+ rightMove).removeClass('selectedToMove');
-            this.removeClickHandlers();
-            this.applyClickHandlers();
+            this.updatePlayerBoardPosition(rightMove, currentLocation, leftMove, rightMove, player)
         }.bind(this));
         $("#"+ leftMove).click(function(){
-            this.currentMode = 'checkmove'
-            $("#"+ leftMove).addClass(player);
-            $("#" + currentLocation).removeClass(player);
-            $("#" + currentLocation).removeClass('selected');
-            $("#"+ rightMove).removeClass('selectedToMove');
-            $("#"+ leftMove).removeClass('selectedToMove');
-            this.removeClickHandlers();
-            this.applyClickHandlers();
+            this.updatePlayerBoardPosition(leftMove, currentLocation, leftMove, rightMove, player)
         }.bind(this));
         this.currentMode = 'possibleMove'
     }
