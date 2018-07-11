@@ -5,13 +5,20 @@ $(document).ready(initializeApp);
 function initializeApp(){
     game = new CheckerGame();
     game.startUp();
-    $('.row > *').click(game.checkMoves);
+    game.applyClickHandlers();
 }
 
 class CheckerGame{
     constructor(){
         this.checkMoves = this.checkMoves.bind(this);
         this.gameBoardReference = null;
+        this.currentMode = 'checkmove'
+    }
+    applyClickHandlers(){
+        $('.row > *').click(this.checkMoves);
+    }
+    removeClickHandlers(){
+        $('.row > *').off();
     }
     startUp(){
         this.buildGameBoard();
@@ -63,12 +70,15 @@ class CheckerGame{
     }
 
     checkMoves(event){
+        if(this.currentMode!=='checkmove'){
+            return;
+        }
         var classes = $(event.target).attr('class');
         var player1 = classes.includes('imgPlayer1');
         var player2 = classes.includes('imgPlayer2');
 
-        var pieceLocation = $(event.target).attr('id');
-        pieceLocation = pieceLocation.split('');
+        var currentLocation = $(event.target).attr('id');
+        var pieceLocation = currentLocation.split('');
         var nextLocation = '';
 
         if(player1){
@@ -76,13 +86,12 @@ class CheckerGame{
             $(event.target).toggleClass('selected');
             // ()=>this.possibleSquare(pieceLocation, player1);
             nextLocation = this.possibleSquare(pieceLocation, 'player1');
-            console.log("nextLocation", nextLocation);
-            this.highlightBoard(nextLocation);
+            this.highlightBoard(currentLocation, nextLocation, 'imgPlayer1');
         } else if(player2){
             // debugger;
             $(event.target).toggleClass('selected');
             nextLocation = this.possibleSquare(pieceLocation, 'player2');
-            this.highlightBoard(nextLocation);
+            this.highlightBoard(currentLocation, nextLocation, 'imgPlayer1');
         }
     }
 
@@ -96,12 +105,48 @@ class CheckerGame{
         }
         return [rightBox, leftBox];
     }
+    updatePlayerBoardPosition( newCellID, currentLocation, leftMove, rightMove ){
+        this.currentMode='checkmove'
+        $("#"+ newCellID).addClass(player);
+        $("#" + currentLocation).removeClass(player);
+        $("#" + currentLocation).removeClass('selected');
+        $("#"+ leftMove).removeClass('selectedToMove');
+        $("#"+ rightMove).removeClass('selectedToMove');
+        this.removeClickHandlers();
+        this.applyClickHandlers();
+    }
+    highlightBoard(currentLocation, nextLocation, player){
+        console.log('current', currentLocation);
+        var rightMove = nextLocation[0];
+        var leftMove = nextLocation[1];
+        $("#"+ rightMove).addClass('selectedToMove');
+        $("#"+ leftMove).addClass('selectedToMove');
 
-    highlightBoard(nextLocation){
-        console.log("nextLocation", nextLocation);
-        console.log(this.gameBoardReference);
-        $("#"+ nextLocation[0]).css('border', '7px solid pink');
-        $("#"+ nextLocation[1]).css('border', '7px solid pink');
+        $("#"+ rightMove).click(function(){
+            this.currentMode='checkmove'
+            $("#"+ rightMove).addClass(player);
+            $("#" + currentLocation).removeClass(player);
+            $("#" + currentLocation).removeClass('selected');
+            $("#"+ leftMove).removeClass('selectedToMove');
+            $("#"+ rightMove).removeClass('selectedToMove');
+            this.removeClickHandlers();
+            this.applyClickHandlers();
+        }.bind(this));
+        $("#"+ leftMove).click(function(){
+            this.currentMode = 'checkmove'
+            $("#"+ leftMove).addClass(player);
+            $("#" + currentLocation).removeClass(player);
+            $("#" + currentLocation).removeClass('selected');
+            $("#"+ rightMove).removeClass('selectedToMove');
+            $("#"+ leftMove).removeClass('selectedToMove');
+            this.removeClickHandlers();
+            this.applyClickHandlers();
+        }.bind(this));
+        this.currentMode = 'possibleMove'
+    }
+
+    movePieces(){
+
     }
 
 }
