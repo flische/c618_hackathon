@@ -39,3 +39,16 @@
 .selected{
     border: 3px solid red;
 }
+.selectedToMove{
+    border: 3px solid #80001f;
+    animation:blink 0.5s linear infinite;
+}
+@keyframes blink {
+    50% {
+       border-color: #dd1500;
+    }
+    75%{
+        border-color: #92d3f2;
+    }
+
+}
