@@ -12,8 +12,8 @@ class CheckerGame{
 
     }
     startUp(){
+        // this.displayInitialModal();
         this.buildGameBoard();
-        this.displayInitialModal();
     }
 
     buildGameBoard(){
@@ -29,6 +29,7 @@ class CheckerGame{
                 var classArray = ['light', 'dark'];
                 var innerDiv = $('<div>').addClass('square');
                 innerDiv.addClass(classArray[index]);
+                innerDiv.attr('id', i + '' + j);
                 outerDiv.append(innerDiv);
                 index = 1 - index;
             }
@@ -36,7 +37,7 @@ class CheckerGame{
             index = 1 - index;
         }
     }
-  displayInitialModal() {
-    $('#myModal').modal('show');
-}
+    displayInitialModal() {
+        $('#myModal').modal('show');
+    }
 }
