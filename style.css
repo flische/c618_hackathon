@@ -34,3 +34,6 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+.selected{
+    border: 3px solid red;
+}
