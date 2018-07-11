@@ -60,4 +60,5 @@ class CheckerGame{
             console.log(divArr[i]);
         }
     }
+
 }
