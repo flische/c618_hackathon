@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
     <script src="main.js"></script>
     <title>Checkers</title>
@@ -23,14 +24,21 @@
   <!--modal-->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="colorChoice1">This will be first color choice</div>
             <div class="colorChoice2">This will be second color choice</div>
             <div class="gameInstructions">Each player begins the game with 12 pieces, or checkers, placed in the three rows closest to him or her. The object of the game is to capture all of your opponent's checkers or position your pieces so that your opponent has no available moves. Basic movement is to move a checker one space diagonally forward.</div>
-            
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myWinModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="colorChoice1">winning message</div>
+            <button class="newGame">New game</button>
         </div>
     </div>
 </div>
