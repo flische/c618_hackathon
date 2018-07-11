@@ -39,4 +39,7 @@ class CheckerGame{
   displayInitialModal() {
     $('#myModal').modal('show');
 }
+    displayWinModal() {
+        $('#myWinModalModal').modal('show');
+    }
 }
