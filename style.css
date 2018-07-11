@@ -23,3 +23,14 @@
 .dark {
     background-color: #2b32f2;
 }
+.imgPlayer1{
+    background-image: url("images/player1.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+.imgPlayer2{
+    background-image: url("images/player2.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
