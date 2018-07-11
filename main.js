@@ -42,4 +42,5 @@ class CheckerGame{
     displayWinModal() {
         $('#myWinModalModal').modal('show');
     }
+
 }
