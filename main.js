@@ -100,8 +100,8 @@ class CheckerGame{
     highlightBoard(nextLocation){
         console.log("nextLocation", nextLocation);
         console.log(this.gameBoardReference);
-        $("#"+ nextLocation[0]).css('border', '7px solid pink');
-        $("#"+ nextLocation[1]).css('border', '7px solid pink');
+        $("#"+ nextLocation[0]).css('border', '3px solid red');
+        $("#"+ nextLocation[1]).css('border', '3px solid red');
     }
 
 }

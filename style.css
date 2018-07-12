@@ -1,11 +1,43 @@
+.main-container {
+    /*display:inline-block;*/
+    height: 80vmin;
+    margin: 0;
+    /*width: 100vmin;*/
+}
+
 #game-board {
     height: 80vmin;
     width: 80vmin;
     margin: auto;
+    /*position: absolute;*/
+    box-sizing: border-box;
+    padding: 0;
 }
 .gameHeader{
-    text-align: center;
+font-size: 1.5em;    text-align: center;
 }
+
+/* For below: we will need to dynamically change text and css to "player 2" and color black when it is player 2's turn*/
+.playerTurnDisplay {
+    color: red;
+    height: 3vmin;
+    font-size: 1.25em;
+    text-align: center;
+    margin: 3vmin 0 0 1vmin;
+}
+
+.player1PiecesWon {
+    height: 5vmin;
+    text-align: center;
+    margin: 1vmin 0 0 0;
+}
+
+.player2PiecesWon {
+    height: 5vmin;
+    text-align: center;
+    margin: 2vmin;
+}
+
 .row {
     display: flex;
     height: 12.5%;
@@ -24,16 +56,25 @@
     background-color: #2b32f2;
 }
 .imgPlayer1{
-    background-image: url("images/player1.png");
+    background-image: url("images/squirtlemini2.png");
+    background-size: 93%;
     background-repeat: no-repeat;
-    background-size: cover;
+    /*background-size: contain;*/
 
 }
 .imgPlayer2{
-    background-image: url("images/player2.png");
+    background-image: url("images/charmandermini.png");
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
 }
 .selected{
-    border: 3px solid red;
+    border: 3px solid pink;
+}
+
+#myModal {
+    display:none;
+}
+
+#myWinModal {
+    display: none;
 }
