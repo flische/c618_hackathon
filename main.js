@@ -10,6 +10,8 @@ function initializeApp(){
 
 class CheckerGame{
     constructor(){
+        this.i = null;
+        this.j = null;
         this.checkMoves = this.checkMoves.bind(this);
         this.gameBoardReference = null;
         this.currentMode = 'checkmove'
@@ -94,32 +96,79 @@ class CheckerGame{
 
 
     possibleSquare(location ,player){
-        var i = parseInt(location[0]);
-        var j = parseInt((location[1]));
+        this.i = parseInt(location[0]);
+        this.j = parseInt((location[1]));
         if(player === 'player1'){
-            var rightBox = ([i + 1, j + 1]).join('');
-            var leftBox = ([i + 1, j - 1]).join('');
+            var rightBox = ([this.i + 1, this.j + 1]).join('');
+            var leftBox = ([this.i + 1, this.j - 1]).join('');
         }
         if(player === 'player2'){
-            var rightBox = ([i - 1, j + 1]).join('');
-            var leftBox = ([i - 1, j - 1]).join('');
+            var rightBox = ([this.i - 1, this.j + 1]).join('');
+            var leftBox = ([this.i - 1, this.j - 1]).join('');
         }
         return [rightBox, leftBox];
     }
     updatePlayerBoardPosition( newCellID, currentLocation, leftMove, rightMove, player ){
-        this.currentMode='checkmove'
-        $("#"+ newCellID).addClass(player);
-        $("#" + currentLocation).removeClass(player);
-        $("#" + currentLocation).removeClass('selected');
-        $("#"+ leftMove).removeClass('selectedToMove');
-        $("#"+ rightMove).removeClass('selectedToMove');
-        this.removeClickHandlers();
-        this.applyClickHandlers();
+
+            /*this.currentMode='checkmove'*/
+            $("#"+ newCellID).addClass(player);
+            $("#" + currentLocation).removeClass(player);
+            $("#" + currentLocation).removeClass('selected');
+            $("#"+ leftMove).removeClass('selectedToMove');
+            $("#"+ rightMove).removeClass('selectedToMove');
+            this.removeClickHandlers();
+            this.applyClickHandlers();
+
+
     }
+
+    /*singleJump(currentLocation,NextLocation,player){
+        var rightMove = nextLocation[0];
+
+    }*/
+
+
     highlightBoard(currentLocation, nextLocation, player){
-        /*this.checkForPieceOnSquare(nextLocation);*/
+
         var rightMove = nextLocation[0];
         var leftMove = nextLocation[1];
+
+        // check for possible jump with squirtle
+        if(player === 'imgPlayer1') {
+            if ($('#' + nextLocation[0]).hasClass('imgPlayer2')){
+               nextLocation[0] = ([this.i+2,this.j+2]).join('');
+               if(!$(nextLocation[0]).hasClass('imgPlayer2')|| !$(nextLocation[0].hasClass('imgPlayer1'))) {
+                   rightMove = nextLocation[0];
+                   $("#" + nextLocation[0]).addClass('selectedToMove');
+               }
+            }
+            if ($('#' + nextLocation[1]).hasClass('imgPlayer2')) {
+                nextLocation[1] = ([this.i + 2, this.j - 2]).join('');
+                if (!$(nextLocation[1]).hasClass('imgPlayer2') || !$(nextLocation[1].hasClass('imgPlayer1'))) {
+                    leftMove = nextLocation[1];
+                    $("#" + nextLocation[1]).addClass('selectedToMove');
+                }
+            }
+            }
+
+                //check for possible jump with charmander
+        if(player === 'imgPlayer2') {
+            if ($('#' + nextLocation[0]).hasClass('imgPlayer1')){
+                nextLocation[0] = ([this.i-2,this.j+2]).join('');
+                if(!$(nextLocation[0]).hasClass('imgPlayer2')|| !$(nextLocation[0].hasClass('imgPlayer1'))) {
+                    rightMove = nextLocation[0];
+                }
+                $("#" + nextLocation[0]).addClass('selectedToMove');
+            }
+            if ($('#' + nextLocation[1]).hasClass('imgPlayer1')){
+                nextLocation[1] = ([this.i-2,this.j-2]).join('');
+                if(!$(nextLocation[1]).hasClass('imgPlayer2')|| !$(nextLocation[1].hasClass('imgPlayer1'))) {
+                    leftMove = nextLocation[1];
+                }
+                $("#" + nextLocation[1]).addClass('selectedToMove');
+            }
+        }
+
         if (!$('#' + nextLocation[0]).hasClass('imgPlayer1') && !$('#' + nextLocation[0]).hasClass('imgPlayer2')){
             $("#" + nextLocation[0]).addClass('selectedToMove');
         }
@@ -133,20 +182,8 @@ class CheckerGame{
         $("#"+ leftMove).click(function(){
             this.updatePlayerBoardPosition(leftMove, currentLocation, leftMove, rightMove, player)
         }.bind(this));
-        this.currentMode = 'possibleMove'
+        /*this.currentMode = 'possibleMove'*/
     }
-
-
-
-        /*checkForPieceOnSquare(nextLocation)
-        {
-            if ($('#' + nextLocation[0]).hasClass('imgPlayer1') || $('#' + nextLocation[0]).hasClass('imgPlayer2')) {
-                $("#" + nextLocation[0]).css('border', 'none');
-            }
-            if ($('#' + nextLocation[0]).hasClass('imgPlayer1') || $('#' + nextLocation[0]).hasClass('imgPlayer2')) {
-                $("#" + nextLocation[1]).css('border', 'none');
-            }
-        }*/
 
 
 }
