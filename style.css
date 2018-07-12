@@ -61,13 +61,13 @@
 }
 
 .imgKingPlayer1 {
-    background-image: url("images/charizard.png");
+    background-image: url("images/blastoise.png");
     background-repeat: no-repeat;
     background-size: contain;
 }
 
 .imgKingPlayer2 {
-    background-image: url("images/blastoise.png");
+    background-image: url("images/charizard.png");
     background-repeat: no-repeat;
     background-size: contain;
 }

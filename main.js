@@ -130,6 +130,31 @@ class CheckerGame{
         return [rightBox, leftBox];
     }
     updatePlayerBoardPosition( newCellID, currentLocation, leftMove, rightMove, player ){
+        var locationBeforeJump =  currentLocation.split('');
+        var locationAfterJump = newCellID.split('');
+        var positionOfEnemyToken = [];
+
+        if(parseInt(locationAfterJump[0]) - parseInt(locationBeforeJump[0]) < 0){
+            positionOfEnemyToken.push(parseInt(locationBeforeJump[0]) - 1);
+        } else {
+            positionOfEnemyToken.push(parseInt(locationBeforeJump[0]) + 1)
+        }
+
+        if(parseInt(locationAfterJump[1]) - parseInt(locationBeforeJump[1]) < 0){
+            positionOfEnemyToken.push(parseInt(locationBeforeJump[1]) - 1);
+        } else {
+            positionOfEnemyToken.push(parseInt(locationBeforeJump[1]) + 1)
+        }
+
+        positionOfEnemyToken = positionOfEnemyToken.join('');
+
+        // console.log('pos', positionOfEnemyToken);
+
+        $('#' + positionOfEnemyToken).removeClass('imgPlayer1 imgPlayer2');
+
+        console.log(locationBeforeJump);
+        console.log(locationAfterJump);
+        // var currentColIndex =
             /*this.currentMode='checkMove'*/
             if(!$("#" + newCellID).hasClass('imgPlayer1') && !$("#" + newCellID).hasClass('imgPlayer2')){
                 // debugger;
@@ -137,12 +162,13 @@ class CheckerGame{
                 $("#" + currentLocation).removeClass(player);
                 // debugger;
                 if(this.kingP1Array.includes(newCellID)){
-                    $("#"+ newCellID).addClass('kingPiecePlayer1');
+                    $("#"+ newCellID).addClass('imgKingPlayer1');
                 }
                 if(this.kingP2Array.includes(newCellID)){
-                    $("#"+ newCellID).addClass('kingPiecePlayer2');
+                    $("#"+ newCellID).addClass('imgKingPlayer2');
                 }
             }
+
 
             $("#" + currentLocation).removeClass('selected');
             $("#"+ leftMove).removeClass('selectedToMove');
@@ -156,9 +182,22 @@ class CheckerGame{
         var rightMove = nextLocation[0];
         var leftMove = nextLocation[1];
 
+        // debugger;
+        var kingOrNot = $("." + player).hasClass('imgKingPlayer1');
+        if(kingOrNot){
+            this.kingMe(currentLocation, nextLocation,'imgKingPlayer1');
+        }
+
+        var kingOrNot = $("." + player).hasClass('imgKingPlayer2');
+        if(kingOrNot){
+            this.kingMe(currentLocation, nextLocation,'imgKingPlayer2');
+        }
+
         // check for possible jump with Squirtle
+        // debugger;
         if (player === 'imgPlayer1') {
             if ($('#' + nextLocation[0]).hasClass('imgPlayer2')) {
+
                 nextLocation[0] = ([this.i + 2, this.j + 2]).join('');
                 if ($('#' + nextLocation[0]).hasClass('imgPlayer2') || $('#' + nextLocation[0]).hasClass('imgPlayer1')) {
                     $("#" + rightMove).removeClass('selectedToMove');
@@ -222,9 +261,39 @@ class CheckerGame{
             /*this.currentMode = 'possibleMove'*/
         }
 
-    kingMe(event, player){
-        //add kingPieceOf... to players accordingly
-        $(event.target).addClass('kingPieceOf' + player);
+    kingMe(currentLocation, nextLocation, player) {
+        var rightMove = nextLocation[0];
+        var leftMove = nextLocation[1];
+        // debugger;
+        console.log(nextLocation);
+        if (player === 'imgKingPlayer1') {
+            if ($('#' + nextLocation[0]).hasClass('imgPlayer2')) {
+                nextLocation[0] = ([this.i + 2, this.j + 2]).join('');
+                if ($('#' + nextLocation[0]).hasClass('imgPlayer2') || $('#' + nextLocation[0]).hasClass('imgPlayer1')) {
+                    $("#" + rightMove).removeClass('selectedToMove');
+                } else {
+                    rightMove = nextLocation[0];
+                    $("#" + nextLocation[0]).addClass('selectedToMove');
+                }
+            }
+            if ($('#' + nextLocation[1]).hasClass('imgPlayer2')) {
+                nextLocation[1] = ([this.i + 2, this.j - 2]).join('');
+                if ($(nextLocation[1]).hasClass('imgPlayer2') || $(nextLocation[1]).hasClass('imgPlayer1')) {
+                    $("#" + leftMove).removeClass('selectedToMove');
+                } else {
+                    leftMove = nextLocation[1];
+                    $("#" + nextLocation[1]).addClass('selectedToMove');
+                }
+            }
+            $("#" + rightMove).removeClass('selectedToMove');
+            $("#" + leftMove).removeClass('selectedToMove');
+        }
+        if (!$('#' + nextLocation[0]).hasClass('imgPlayer1') && !$('#' + nextLocation[0]).hasClass('imgPlayer2')) {
+            $("#" + nextLocation[0]).addClass('selectedToMove');
+        }
+        if (!$('#' + nextLocation[1]).hasClass('imgPlayer1') && !$('#' + nextLocation[1]).hasClass('imgPlayer2')) {
+            $("#" + nextLocation[1]).addClass('selectedToMove');
+        }
     }
 }
 
