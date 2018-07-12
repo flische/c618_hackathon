@@ -1,17 +1,38 @@
+.gameHeader{
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.playerTurnDisplay {
+    color: red;
+    height: 3vmin;
+    font-size: 1.25em;
+    text-align: center;
+    margin: 3vmin 0 0 1vmin;
+}
+
 #game-board {
     height: 80vmin;
     width: 80vmin;
     margin: auto;
 }
-.gameHeader{
+
+.player1PiecesWon {
+    height: 5vmin;
     text-align: center;
+    margin: 1vmin 0 0 0;
 }
+
+.player2PiecesWon {
+    height: 5vmin;
+    text-align: center;
+    margin: 2vmin;
+}
+
 .row {
     display: flex;
     height: 12.5%;
 }
-
-
 
 .square {
     display: inline-block;
@@ -25,30 +46,44 @@
 .dark {
     background-color: #2b32f2;
 }
-.imgPlayer1{
-    background-image: url("images/player1.png");
-    background-repeat: no-repeat;
-    background-size: cover;
 
+.imgPlayer1 {
+    background-image: url("images/squirtlemini2.png");
+    background-repeat: no-repeat;
+    background-size: 93%;
 }
-.imgPlayer2{
+/*I changed  background-size above^ to 93% because Squirtle was a bit bigger than Charmander*/
+
+.imgPlayer2 {
     background-image: url("images/charmandermini.png");
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
 }
+
+.imgKingPlayer1 {
+    background-image: url("images/charizard.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.imgKingPlayer2 {
+    background-image: url("images/blastoise.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
 .selected{
     border: 3px solid red;
 }
 .selectedToMove{
-    border: 3px solid #80001f;
-    animation:blink 0.5s linear infinite;
+    border: 3px dotted green;
+    animation: blink 0.5s linear infinite;
 }
 @keyframes blink {
     50% {
-       border-color: #dd1500;
+       border-color: rebeccapurple;
     }
     75%{
-        border-color: #92d3f2;
+        border-color: chartreuse;
     }
-
 }
