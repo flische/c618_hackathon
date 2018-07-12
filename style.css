@@ -1,14 +1,27 @@
-.gameHeader{
-    font-size: 1.5em;
-    text-align: center;
+body {
+    background-image: url("images/pokearena.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    box-sizing: border-box;
 }
 
-.playerTurnDisplay {
+.gameHeader{
+    font-size: 1.75em;
+    text-align: center;
     color: red;
+}
+
+/*add functionality with jQuery to change this class's border color & font color on turn*/
+.playerTurnDisplay {
+    width: 16%;
+    color: blue;
+    background-color: lightgoldenrodyellow;
+    border: 6px solid deepskyblue;
     height: 3vmin;
     font-size: 1.25em;
     text-align: center;
-    margin: 3vmin 0 0 1vmin;
+    margin: 3vmin auto 3vmin auto;
 }
 
 #game-board {
@@ -18,12 +31,16 @@
 }
 
 .player1PiecesWon {
+    color: #2e86c0;
+    font-size: 1.4em;
     height: 5vmin;
     text-align: center;
     margin: 1vmin 0 0 0;
 }
 
 .player2PiecesWon {
+    color: darkorange;
+    font-size: 1.4em;
     height: 5vmin;
     text-align: center;
     margin: 2vmin;
