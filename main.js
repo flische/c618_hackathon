@@ -83,12 +83,31 @@ class CheckerGame{
         var pieceLocation = currentLocation.split('');
         var nextLocation = '';
 
+        // changed player1 and player2 to select and deselect
+
         if(player1){
-            $(event.target).toggleClass('selected');
+            if($(event.target).hasClass('selected')){
+                $('#game-board div').removeClass('selected');
+                $('#game-board div').removeClass('selectedToMove');
+                $(event.target).addClass('selected');
+            } else {
+                $('#game-board div').removeClass('selected');
+                $('#game-board div').removeClass('selectedToMove');
+                $(event.target).addClass('selected');
+            }
             nextLocation = this.possibleSquare(pieceLocation, 'player1');
             this.highlightBoard(currentLocation, nextLocation, 'imgPlayer1');
+
         } else if(player2){
-            $(event.target).toggleClass('selected');
+            if($(event.target).hasClass('selected')){
+                $('#game-board div').removeClass('selected');
+                $('#game-board div').removeClass('selectedToMove');
+                $(event.target).addClass('selected');
+            } else {
+                $('#game-board div').removeClass('selected');
+                $('#game-board div').removeClass('selectedToMove');
+                $(event.target).addClass('selected');
+            }
             nextLocation = this.possibleSquare(pieceLocation, 'player2');
             this.highlightBoard(currentLocation, nextLocation, 'imgPlayer2');
         }
@@ -109,10 +128,13 @@ class CheckerGame{
         return [rightBox, leftBox];
     }
     updatePlayerBoardPosition( newCellID, currentLocation, leftMove, rightMove, player ){
-
             /*this.currentMode='checkMove'*/
-            $("#"+ newCellID).addClass(player);
-            $("#" + currentLocation).removeClass(player);
+            if(!$("#" + newCellID).hasClass('imgPlayer1') && !$("#" + newCellID).hasClass('imgPlayer2')){
+                // debugger;
+                $("#"+ newCellID).addClass(player);
+                $("#" + currentLocation).removeClass(player);
+            }
+
             $("#" + currentLocation).removeClass('selected');
             $("#"+ leftMove).removeClass('selectedToMove');
             $("#"+ rightMove).removeClass('selectedToMove');
