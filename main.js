@@ -14,7 +14,9 @@ class CheckerGame{
         this.j = null;
         this.checkMoves = this.checkMoves.bind(this);
         this.gameBoardReference = null;
-        this.currentMode = 'checkmove'
+        this.currentMode = 'checkmove';
+        this.kingP1Array = ['70', '72', '74', '76'];
+        this.kingP2Array = ['01', '03','05', '07'];
     }
     applyClickHandlers(){
         $('.row > *').click(this.checkMoves);
@@ -133,6 +135,13 @@ class CheckerGame{
                 // debugger;
                 $("#"+ newCellID).addClass(player);
                 $("#" + currentLocation).removeClass(player);
+                // debugger;
+                if(this.kingP1Array.includes(newCellID)){
+                    $("#"+ newCellID).addClass('kingPiecePlayer1');
+                }
+                if(this.kingP2Array.includes(newCellID)){
+                    $("#"+ newCellID).addClass('kingPiecePlayer2');
+                }
             }
 
             $("#" + currentLocation).removeClass('selected');
@@ -212,7 +221,12 @@ class CheckerGame{
         }.bind(this));
             /*this.currentMode = 'possibleMove'*/
         }
+
+    kingMe(event, player){
+        //add kingPieceOf... to players accordingly
+        $(event.target).addClass('kingPieceOf' + player);
     }
+}
 
 
 
