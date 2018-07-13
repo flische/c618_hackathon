@@ -379,9 +379,9 @@ class CheckerGame{
         $("#"+ downLeftKing).click(function(){
             this.updatePlayerBoardPosition(downLeftKing, currentLocation, upRightKing, upLeftKing, player, downRightKing, downLeftKing)
         }.bind(this));
-        }
+     }
 
-        }
+        
 
 
 
