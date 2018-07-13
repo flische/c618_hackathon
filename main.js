@@ -6,17 +6,28 @@ function initializeApp(){
     game = new CheckerGame();
     game.startUp();
     game.applyClickHandlers();
+    game.disablePlayer2ClickOnGameLoad();
 }
 
 class CheckerGame{
     constructor(){
+        this.currentPlayer = 0;
+        console.log('current player', this.currentPlayer);
+
+        this.player1turn = true;
+        this.player2turn = false;
         this.rowIndex = null;
         this.colIndex = null;
         this.checkMoves = this.checkMoves.bind(this);
         this.gameBoardReference = null;
-        this.currentMode = 'checkmove';
+        this.currentMode = 'checkMove';
         this.kingP1Array = ['70', '72', '74', '76'];
         this.kingP2Array = ['01', '03','05', '07'];
+
+        this.player2pieces;
+        this.player2kings;
+        this.player1pieces;
+        this.player1kings;
     }
     applyClickHandlers(){
         $('.row > *').click(this.checkMoves);
@@ -61,16 +72,56 @@ class CheckerGame{
 
     populatePlayer1Chips(){
         this.gameBoardReference = $('#game-board div');
-        for(var i = 2; i < this.gameBoardReference.length/2 - 8; i+=2){
+        for(var i = 2; i < this.gameBoardReference.length / 2 - 8; i+=2){
             $(this.gameBoardReference[i]).addClass('imgPlayer1');
         }
     }
 
     populatePlayer2Chips(){
         this.gameBoardReference = $('#game-board div');
-        for(var i = this.gameBoardReference.length; i > this.gameBoardReference.length/2 + 8; i-=2){
+        for(var i = this.gameBoardReference.length; i > this.gameBoardReference.length / 2 + 8; i-=2){
             $(this.gameBoardReference[i]).addClass('imgPlayer2');
         }
+    }
+
+    disablePlayer2ClickOnGameLoad(){
+        this.player2pieces = $('.imgPlayer2');
+        this.player2kings = $('.imgKingPlayer2');
+        $(this.player2pieces).css("pointer-events", 'none');
+        $(this.player2kings).css("pointer-events", 'none');
+    }
+
+    switchPlayer() {
+
+        this.currentPlayer = 1 - this.currentPlayer;
+        if (this.currentPlayer === 0) {
+
+            this.player2pieces = $('.imgPlayer2');
+            this.player2kings = $('.imgKingPlayer2');
+            $(this.player2pieces).css("pointer-events", 'none');
+            $(this.player2kings).css("pointer-events", 'none');
+
+            $(this.player1pieces).css("pointer-events", 'auto');
+            $(this.player1kings).css("pointer-events", 'auto');
+
+        }
+        if (this.currentPlayer === 1) {
+            this.player1pieces = $('.imgPlayer1');
+            this.player1kings = $('.imgKingPlayer1');
+            $(this.player1pieces).css("pointer-events", 'none');
+            $(this.player1kings).css("pointer-events", 'none');
+
+            $(this.player2pieces).css("pointer-events", 'auto');
+            $(this.player2kings).css("pointer-events", 'auto');
+        }
+        // if (this.player1turn) {
+            // this.player1turn = false;
+            // this.player2turn = true;
+        // }
+        // if (this.player2turn) {
+        //     this.player2turn = false;
+        //     this.player1turn = true;
+        // }
     }
 
     checkMoves(event){
@@ -115,11 +166,11 @@ class CheckerGame{
         }
     }
 
-
     possibleSquare(location ,player){
         this.rowIndex = parseInt(location[0]);
         this.colIndex = parseInt((location[1]));
         if(player === 'player1'){
+
             var rightBox = ([Math.abs(this.rowIndex + 1), Math.abs(this.colIndex + 1)]).join('');
             var leftBox = ([Math.abs(this.rowIndex + 1), Math.abs(this.colIndex - 1)]).join('');
         }
@@ -130,18 +181,22 @@ class CheckerGame{
         return [rightBox, leftBox];
     }
     updatePlayerBoardPosition( newCellID, currentLocation, leftMove, rightMove, player, downRightKing, downLeftKing){
+
         var locationBeforeJump =  currentLocation.split('');
         debugger;
         var locationAfterJump = newCellID.split('');
         var positionOfEnemyToken = [];
+        var classes = $(event.target).attr('class');
+        var player1 = classes.includes('imgPlayer1');
+        var player2 = classes.includes('imgPlayer2');
 
-        if(parseInt(locationAfterJump[0]) - parseInt(locationBeforeJump[0]) < 0){
+        if (parseInt(locationAfterJump[0]) - parseInt(locationBeforeJump[0]) < 0) {
             positionOfEnemyToken.push(parseInt(locationBeforeJump[0]) - 1);
         } else {
             positionOfEnemyToken.push(parseInt(locationBeforeJump[0]) + 1)
         }
 
-        if(parseInt(locationAfterJump[1]) - parseInt(locationBeforeJump[1]) < 0){
+        if (parseInt(locationAfterJump[1]) - parseInt(locationBeforeJump[1]) < 0) {
             positionOfEnemyToken.push(parseInt(locationBeforeJump[1]) - 1);
         } else {
             positionOfEnemyToken.push(parseInt(locationBeforeJump[1]) + 1)
@@ -183,19 +238,30 @@ class CheckerGame{
                 }
                 // debugger;
                 if(this.kingP1Array.includes(newCellID)){
-                    $("#"+ newCellID).addClass('imgKingPlayer1');
+                    $("#" + newCellID).addClass('imgKingPlayer1');
                 }
                 if(this.kingP2Array.includes(newCellID)){
-                    $("#"+ newCellID).addClass('imgKingPlayer2');
+                    $("#" + newCellID).addClass('imgKingPlayer2');
                 }
             }
-
+            // need to call playerTurn function / flip player turn flag here //
+            // if newCellID is player 1 //
+            // if ($("#" + newCellID).hasClass('imgPlayer1') || $("#" + newCellID).hasClass('imgKingPlayer1')){
+            //     this.switchPlayer();
+            // }
+            // else { // newCellID must be player 2 //
+            //     // player 2 turn is over and switch to player 1 //
+            // }
 
             $("#" + currentLocation).removeClass('selected');
             $("#"+ leftMove).removeClass('selectedToMove');
             $("#"+ rightMove).removeClass('selectedToMove');
+
+            this.switchPlayer();
+
             $("#"+ downRightKing).removeClass('selectedToMove');
             $("#"+ downLeftKing).removeClass('selectedToMove');
+
             this.removeClickHandlers();
             this.applyClickHandlers();
     }
@@ -292,11 +358,7 @@ class CheckerGame{
         var downLeftKing = ([Math.abs(this.rowIndex + 1), Math.abs(this.colIndex - 1)]).join('');
         debugger;
         console.log(nextLocation);
-        if (player === 'imgKingPlayer1' || player === 'imgKingPlayer2') {
-            $('#' + upRightKing).addClass('selectedToMove');
-            $('#' + upLeftKing).addClass('selectedToMove');
-            $('#' + downRightKing).addClass('selectedToMove');
-            $('#' + downLeftKing).addClass('selectedToMove');
+ 
         }
 
         $("#"+ upRightKing).click(function(){
