@@ -17,6 +17,7 @@ class CheckerGame{
         this.currentMode = 'checkmove';
         this.kingP1Array = ['70', '72', '74', '76'];
         this.kingP2Array = ['01', '03','05', '07'];
+        this.allPossibleKingMoves = [];
     }
     applyClickHandlers(){
         $('.row > *').click(this.checkMoves);
@@ -152,8 +153,6 @@ class CheckerGame{
         // console.log('pos', positionOfEnemyToken);
 
         $('#' + positionOfEnemyToken).removeClass('imgPlayer1 imgPlayer2');
-        console.log(locationBeforeJump);
-        console.log(locationAfterJump);
         // var currentColIndex =
             /*this.currentMode='checkMove'*/
             if(!$("#" + newCellID).hasClass('imgPlayer1') && !$("#" + newCellID).hasClass('imgPlayer2')){
@@ -217,7 +216,7 @@ class CheckerGame{
         }
 
         // check for possible jump with Squirtle
-        // debugger;
+        debugger;
         if (player === 'imgPlayer1') {
             if ($('#' + nextLocation[0]).hasClass('imgPlayer2')) {
 
@@ -227,6 +226,43 @@ class CheckerGame{
                 } else {
                     rightMove = nextLocation[0];
                     $("#" + nextLocation[0]).addClass('selectedToMove');
+                }
+            }
+            if ($('#' + nextLocation[1]).hasClass('imgPlayer2')) {
+                nextLocation[1] = ([this.rowIndex + 2, this.colIndex - 2]).join('');
+                if ($(nextLocation[1]).hasClass('imgPlayer2') || $(nextLocation[1]).hasClass('imgPlayer1')) {
+                    $("#" + leftMove).removeClass('selectedToMove');
+                } else {
+                    leftMove = nextLocation[1];
+                    $("#" + nextLocation[1]).addClass('selectedToMove');
+                }
+            }
+            $("#" + rightMove).removeClass('selectedToMove');
+            $("#" + leftMove).removeClass('selectedToMove');
+        }
+
+
+        if (player === 'imgKingPlayer1') {
+            if ($('#' + this.allPossibleKingMoves[0]).hasClass('imgPlayer2')) {
+                debugger;
+                var upRight = this.allPossibleKingMoves[0];
+                upRight = upRight.split('');
+                // console.log(upRight);
+                upRight[0] = parseInt(upRight[0]);
+                upRight[1] = parseInt(upRight[1]);
+
+                var upLeft = this.allPossibleKingMoves[1];
+                upLeft = upLeft.split('');
+                // console.log(upRight);
+                upLeft[0] = parseInt(upLeft[0]);
+                upLeft[1] = parseInt(upLeft[1]);
+
+
+                upLeft = ([upLeft[0] - 2, upLeft[1] + 2]).join('');
+                if ($('#' + upLeft).hasClass('imgPlayer2') || $('#' + upRight).hasClass('imgPlayer1')) {
+                    $("#" + upLeft).removeClass('selectedToMove');
+                } else {
+                    $("#" + upLeft).addClass('selectedToMove');
                 }
             }
             if ($('#' + nextLocation[1]).hasClass('imgPlayer2')) {
@@ -290,14 +326,14 @@ class CheckerGame{
         var upLeftKing = ([Math.abs(this.rowIndex - 1), Math.abs(this.colIndex - 1)]).join('');
         var downRightKing = ([Math.abs(this.rowIndex + 1), Math.abs(this.colIndex + 1)]).join('');
         var downLeftKing = ([Math.abs(this.rowIndex + 1), Math.abs(this.colIndex - 1)]).join('');
-        debugger;
-        console.log(nextLocation);
-        if (player === 'imgKingPlayer1' || player === 'imgKingPlayer2') {
-            $('#' + upRightKing).addClass('selectedToMove');
-            $('#' + upLeftKing).addClass('selectedToMove');
-            $('#' + downRightKing).addClass('selectedToMove');
-            $('#' + downLeftKing).addClass('selectedToMove');
-        }
+        this.allPossibleKingMoves = [upRightKing, upLeftKing, downRightKing, downLeftKing];
+        // debugger;
+        // if (player === 'imgKingPlayer1' || player === 'imgKingPlayer2') {
+        //     $('#' + upRightKing).addClass('selectedToMove');
+        //     $('#' + upLeftKing).addClass('selectedToMove');
+        //     $('#' + downRightKing).addClass('selectedToMove');
+        //     $('#' + downLeftKing).addClass('selectedToMove');
+        // }
 
         $("#"+ upRightKing).click(function(){
             this.updatePlayerBoardPosition(upRightKing, currentLocation, upRightKing, upLeftKing, player, downRightKing, downLeftKing)
