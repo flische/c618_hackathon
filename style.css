@@ -1,8 +1,9 @@
 body {
     background-image: url("images/pokearena.png");
+    /*background-color: rgba(211, 211, 211, 0.3);*/
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: bottom;
+    /*background-position: bottom;*/
     box-sizing: border-box;
 }
 
