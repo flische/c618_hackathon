@@ -1,8 +1,8 @@
 body {
-    background-image: url("images/pokemonpikachubackground.png");
+    background-image: url("images/pokearena.png");
     /*background-color: rgba(211, 211, 211, 0.3);*/
-    background-repeat: repeat;
-    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: cover;
     /*background-position: bottom;*/
     box-sizing: border-box;
 }
@@ -104,4 +104,8 @@ body {
     75%{
         border-color: chartreuse;
     }
+}
+
+.modal {
+    display: none;
 }
