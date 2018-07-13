@@ -363,6 +363,7 @@ class CheckerGame{
         var downLeftKing = ([Math.abs(this.rowIndex + 1), Math.abs(this.colIndex - 1)]).join('');
         debugger;
         console.log(nextLocation);
+      
         $("#"+ upRightKing).click(function(){
             this.updatePlayerBoardPosition(upRightKing, currentLocation, upRightKing, upLeftKing, player, downRightKing, downLeftKing)
         }.bind(this));
@@ -378,6 +379,7 @@ class CheckerGame{
         $("#"+ downLeftKing).click(function(){
             this.updatePlayerBoardPosition(downLeftKing, currentLocation, upRightKing, upLeftKing, player, downRightKing, downLeftKing)
         }.bind(this));
+        }
 
         }
 
@@ -393,8 +395,3 @@ class CheckerGame{
         //     var leftBox = ([this.rowIndex - 1, this.colIndex - 1]).join('');
         // }
 }
-
-
-
-
-

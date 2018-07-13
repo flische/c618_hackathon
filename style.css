@@ -60,11 +60,11 @@ body {
     width: 12.5%;
 }
 .light {
-    background-color: #f3f40a;
+    background-color: antiquewhite;
 }
 
 .dark {
-    background-color: #2b32f2;
+    background-color: red;
 }
 
 .imgPlayer1 {
@@ -106,4 +106,8 @@ body {
     75%{
         border-color: chartreuse;
     }
+}
+
+.modal {
+    display: none;
 }
