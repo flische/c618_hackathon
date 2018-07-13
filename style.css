@@ -1,8 +1,8 @@
 body {
-    background-image: url("images/pokearena.png");
+    background-image: url("images/pokemonpikachubackground.png");
     /*background-color: rgba(211, 211, 211, 0.3);*/
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-repeat: repeat;
+    background-size: contain;
     /*background-position: bottom;*/
     box-sizing: border-box;
 }
@@ -58,11 +58,11 @@ body {
     width: 12.5%;
 }
 .light {
-    background-color: #f3f40a;
+    background-color: antiquewhite;
 }
 
 .dark {
-    background-color: #2b32f2;
+    background-color: red;
 }
 
 .imgPlayer1 {
