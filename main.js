@@ -170,17 +170,20 @@ class CheckerGame{
         this.rowIndex = parseInt(location[0]);
         this.colIndex = parseInt((location[1]));
         if(player === 'player1'){
-            var rightBox = ([this.rowIndex + 1, this.colIndex + 1]).join('');
-            var leftBox = ([this.rowIndex + 1, this.colIndex - 1]).join('');
+
+            var rightBox = ([Math.abs(this.rowIndex + 1), Math.abs(this.colIndex + 1)]).join('');
+            var leftBox = ([Math.abs(this.rowIndex + 1), Math.abs(this.colIndex - 1)]).join('');
         }
         if(player === 'player2'){
-            var rightBox = ([this.rowIndex - 1, this.colIndex + 1]).join('');
-            var leftBox = ([this.rowIndex - 1, this.colIndex - 1]).join('');
+            var rightBox = ([Math.abs(this.rowIndex - 1), Math.abs(this.colIndex + 1)]).join('');
+            var leftBox = ([Math.abs(this.rowIndex - 1), Math.abs(this.colIndex - 1)]).join('');
         }
         return [rightBox, leftBox];
     }
-    updatePlayerBoardPosition( newCellID, currentLocation, leftMove, rightMove, player ) {
+    updatePlayerBoardPosition( newCellID, currentLocation, leftMove, rightMove, player, downRightKing, downLeftKing){
+
         var locationBeforeJump =  currentLocation.split('');
+        debugger;
         var locationAfterJump = newCellID.split('');
         var positionOfEnemyToken = [];
         var classes = $(event.target).attr('class');
@@ -204,15 +207,35 @@ class CheckerGame{
         // console.log('pos', positionOfEnemyToken);
 
         $('#' + positionOfEnemyToken).removeClass('imgPlayer1 imgPlayer2');
-
         console.log(locationBeforeJump);
         console.log(locationAfterJump);
         // var currentColIndex =
             /*this.currentMode='checkMove'*/
             if(!$("#" + newCellID).hasClass('imgPlayer1') && !$("#" + newCellID).hasClass('imgPlayer2')){
-                // debugger;
-                $("#"+ newCellID).addClass(player);
-                $("#" + currentLocation).removeClass(player);
+
+                if(player === 'imgKingPlayer1'){
+
+                    $("#" + newCellID).addClass(player);
+                    $("#" + newCellID).addClass('imgPlayer1');
+                    $("#" + currentLocation).removeClass(player);
+                    $("#" + currentLocation).removeClass('imgPlayer1');
+                }else {
+                    debugger;
+                    $("#" + newCellID).addClass(player);
+                    // $("#" + newCellID).addClass('imgPlayer2');
+                    $("#" + currentLocation).removeClass(player);
+                    // $("#" + currentLocation).removeClass('imgPlayer2');
+                }
+                if(player === 'imgKingPlayer2'){
+
+                    $("#" + newCellID).addClass(player);
+                    $("#" + newCellID).addClass('imgPlayer2');
+                    $("#" + currentLocation).removeClass(player);
+                    $("#" + currentLocation).removeClass('imgPlayer2');
+                }else {
+                    $("#" + newCellID).addClass(player);
+                    $("#" + currentLocation).removeClass(player);
+                }
                 // debugger;
                 if(this.kingP1Array.includes(newCellID)){
                     $("#" + newCellID).addClass('imgKingPlayer1');
@@ -233,7 +256,12 @@ class CheckerGame{
             $("#" + currentLocation).removeClass('selected');
             $("#"+ leftMove).removeClass('selectedToMove');
             $("#"+ rightMove).removeClass('selectedToMove');
+
             this.switchPlayer();
+
+            $("#"+ downRightKing).removeClass('selectedToMove');
+            $("#"+ downLeftKing).removeClass('selectedToMove');
+
             this.removeClickHandlers();
             this.applyClickHandlers();
     }
@@ -323,38 +351,40 @@ class CheckerGame{
         }
 
     kingMe(currentLocation, nextLocation, player) {
-        var rightMove = nextLocation[0];
-        var leftMove = nextLocation[1];
-        // debugger;
+        debugger;
+        var upRightKing = ([Math.abs(this.rowIndex - 1), Math.abs(this.colIndex + 1)]).join('');
+        var upLeftKing = ([Math.abs(this.rowIndex - 1), Math.abs(this.colIndex - 1)]).join('');
+        var downRightKing = ([Math.abs(this.rowIndex + 1), Math.abs(this.colIndex + 1)]).join('');
+        var downLeftKing = ([Math.abs(this.rowIndex + 1), Math.abs(this.colIndex - 1)]).join('');
+        debugger;
         console.log(nextLocation);
-        if (player === 'imgKingPlayer1') {
-            if ($('#' + nextLocation[0]).hasClass('imgPlayer2')) {
-                nextLocation[0] = ([this.rowIndex + 2, this.colIndex + 2]).join('');
-                if ($('#' + nextLocation[0]).hasClass('imgPlayer2') || $('#' + nextLocation[0]).hasClass('imgPlayer1')) {
-                    $("#" + rightMove).removeClass('selectedToMove');
-                } else {
-                    rightMove = nextLocation[0];
-                    $("#" + nextLocation[0]).addClass('selectedToMove');
-                }
-            }
-            if ($('#' + nextLocation[1]).hasClass('imgPlayer2')) {
-                nextLocation[1] = ([this.rowIndex + 2, this.colIndex - 2]).join('');
-                if ($(nextLocation[1]).hasClass('imgPlayer2') || $(nextLocation[1]).hasClass('imgPlayer1')) {
-                    $("#" + leftMove).removeClass('selectedToMove');
-                } else {
-                    leftMove = nextLocation[1];
-                    $("#" + nextLocation[1]).addClass('selectedToMove');
-                }
-            }
-            $("#" + rightMove).removeClass('selectedToMove');
-            $("#" + leftMove).removeClass('selectedToMove');
+ 
         }
-        if (!$('#' + nextLocation[0]).hasClass('imgPlayer1') && !$('#' + nextLocation[0]).hasClass('imgPlayer2')) {
-            $("#" + nextLocation[0]).addClass('selectedToMove');
-        }
-        if (!$('#' + nextLocation[1]).hasClass('imgPlayer1') && !$('#' + nextLocation[1]).hasClass('imgPlayer2')) {
-            $("#" + nextLocation[1]).addClass('selectedToMove');
-        }
+
+        $("#"+ upRightKing).click(function(){
+            this.updatePlayerBoardPosition(upRightKing, currentLocation, upRightKing, upLeftKing, player, downRightKing, downLeftKing)
+        }.bind(this));
+
+        $("#"+ upLeftKing).click(function(){
+            this.updatePlayerBoardPosition(upLeftKing, currentLocation, upRightKing, upLeftKing, player, downRightKing, downLeftKing)
+        }.bind(this));
+
+        $("#"+ downRightKing).click(function(){
+            this.updatePlayerBoardPosition(downRightKing, currentLocation, upRightKing, upLeftKing, player, downRightKing, downLeftKing)
+        }.bind(this));
+
+        $("#"+ downLeftKing).click(function(){
+            this.updatePlayerBoardPosition(downLeftKing, currentLocation, upRightKing, upLeftKing, player, downRightKing, downLeftKing)
+        }.bind(this));
+
+        // if(player === 'player1'){
+        //     var rightBox = ([this.rowIndex + 1, this.colIndex + 1]).join('');
+        //     var leftBox = ([this.rowIndex + 1, this.colIndex - 1]).join('');
+        // }
+        // if(player === 'player2'){
+        //     var rightBox = ([this.rowIndex - 1, this.colIndex + 1]).join('');
+        //     var leftBox = ([this.rowIndex - 1, this.colIndex - 1]).join('');
+        // }
     }
 }
 
