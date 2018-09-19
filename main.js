@@ -95,7 +95,9 @@ class CheckerGame{
     switchPlayer() {
         this.currentPlayer = 1 - this.currentPlayer;
         if (this.currentPlayer === 0) {
-
+            $('.playerTurnDisplay').text('Squirtles Turn');
+            $('.playerTurnDisplay').css('border', '3px solid blue');
+            $('.playerTurnDisplay').css('color', 'blue');
             this.player2pieces = $('.imgPlayer2');
             this.player2kings = $('.imgKingPlayer2');
             $(this.player2pieces).css("pointer-events", 'none');
@@ -106,6 +108,9 @@ class CheckerGame{
 
         }
         if (this.currentPlayer === 1) {
+            $('.playerTurnDisplay').text('Charmanders Turn');
+            $('.playerTurnDisplay').css('border', '3px solid red');
+            $('.playerTurnDisplay').css('color', 'red');
             this.player1pieces = $('.imgPlayer1');
             this.player1kings = $('.imgKingPlayer1');
             $(this.player1pieces).css("pointer-events", 'none');
@@ -341,11 +346,5 @@ class CheckerGame{
         $("#"+ downLeftKing).click(function(){
             this.updatePlayerBoardPosition(downLeftKing, currentLocation, upRightKing, upLeftKing, player, downRightKing, downLeftKing)
         }.bind(this));
-
-        }
+     }
 }
-
-
-
-
-
